@@ -5,7 +5,8 @@ function parseMarkdown(text) {
   const escapeHtml = (s) =>
     s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  const lines = text.split(/\r?\n/);
+  // Split on any common newline sequence to be robust across environments
+  const lines = text.split(/\r\n|\r|\n/);
   const out = [];
   let inList = false;
 
@@ -26,8 +27,8 @@ function parseMarkdown(text) {
         inList = false;
       }
       const level = hMatch[1].length;
-      const content = hMatch[2];
-      out.push(`<h${level}>${content}</h${level}>`);
+  const content = escapeHtml(hMatch[2]);
+  out.push(`<h${level}>${content}</h${level}>`);
       continue;
     }
 
@@ -37,7 +38,7 @@ function parseMarkdown(text) {
         out.push("<ul>");
         inList = true;
       }
-      out.push(`<li>${liMatch[1]}</li>`);
+  out.push(`<li>${escapeHtml(liMatch[1])}</li>`);
       continue;
     }
 

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import parser from "./markdownParser";
 
 function MarkdownEditor() {
-  const [markdown, setMarkdown] = useState("# Hello world");
+  // Start with empty input so tests that type content behave deterministically
+  const [markdown, setMarkdown] = useState("");
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
 
